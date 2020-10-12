@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>{{getTitle()}}</h2>
+<mat-dialog-content class="mat-typography">
+
+		<form class="kt-form" [formGroup]="vehicleForm" autocomplete="off">
+			<div class="kt-portlet__body">
+
+				<div class="kt-portlet__body-progress" [hidden]="!vehicleService.loading">
+					<mat-spinner [diameter]="20"></mat-spinner>
+				</div>
+
+				<div class="form-group kt-form__group row">
+
+
+					<div class="col-lg-4 kt-margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Placa" formControlName="plate" />							
+							<mat-error>
+								<span *ngIf="vehicleForm.controls.plate.errors?.required"> Por favor ingrese la 
+									<strong>Placa</strong> del vehículo
+								</span>
+								<span *ngIf="vehicleForm.controls.plate.errors?.minlength || vehicleForm.controls.plate.errors?.maxlength"> 
+									La placa debe contener entre 5 y 12 caracteres
+								</span>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Color" formControlName="color" />
+							<mat-error>
+								<span *ngIf="vehicleForm.controls.color.errors?.required"> Por favor ingrese el 
+									<strong>Color</strong>
+								</span>
+								<span *ngIf="vehicleForm.controls.color.errors?.maxlength"> 
+									Máximo 50 caracteres
+								</span>
+								
+							</mat-error>							
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Marca" formControlName="brand" />
+							<mat-error>
+								<span *ngIf="vehicleForm.controls.brand.errors?.required"> Por favor ingrese la 
+									<strong>Marca</strong>
+								</span>
+								<span *ngIf="vehicleForm.controls.brand.errors?.maxlength"> 
+									Máximo 20 caracteres
+								</span>
+							</mat-error>							
+						</mat-form-field>
+					</div>
+
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="Tipo" formControlName="vehicle_type_id">
+								<mat-option *ngFor="let vehicle_type of vehicle_types" [value]="vehicle_type.id">
+									{{vehicle_type.name}}
+								</mat-option>							
+							</mat-select>							
+							<mat-error>Por favor seleccione un
+								<strong>Tipo</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="Propietario" formControlName="third_party_owner_id">
+								<mat-option *ngFor="let third_party of third_parties" [value]="third_party.id">
+									{{third_party.full_name}}
+								</mat-option>							
+							</mat-select>							
+							<mat-error>Por favor seleccione un
+								<strong>Propietario</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="Conductor" formControlName="third_party_driver_id">
+								<mat-option *ngFor="let third_party of third_parties" [value]="third_party.id">
+									{{third_party.full_name}}
+								</mat-option>							
+							</mat-select>							
+							<mat-error>Por favor seleccione un
+								<strong>Conductor</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+					
+					
+				</div>
+			</div>
+		</form>	
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button type="button" class="btn btn-danger" [mat-dialog-close]="data.animal" [disabled]="vehicleService.loading">
+		Cancelar
+	</button>&nbsp;
+	<button type="button" class="btn btn-primary" (click)="onSubmit(vehicleForm.value)" [disabled]="vehicleService.loading">Guardar Cambios</button>
+</mat-dialog-actions>

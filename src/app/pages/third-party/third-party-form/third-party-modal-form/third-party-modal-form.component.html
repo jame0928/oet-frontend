@@ -1,0 +1,124 @@
+<h2 mat-dialog-title>{{getTitle()}}</h2>
+<mat-dialog-content class="mat-typography">
+
+		<form class="kt-form" [formGroup]="thirdPartyForm" autocomplete="off">
+			<div class="kt-portlet__body">
+
+				<div class="kt-portlet__body-progress" [hidden]="!thirdPartyService.loading">
+					<mat-spinner [diameter]="20"></mat-spinner>
+				</div>
+
+				<div class="form-group kt-form__group row">
+
+
+					<div class="col-lg-4 kt-margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Identificación" formControlName="identification" />							
+							<mat-error>
+								<span *ngIf="thirdPartyForm.controls.identification.errors?.required"> Por favor ingrese una 
+									<strong>Identificación</strong>
+								</span>
+								<span *ngIf="thirdPartyForm.controls.identification.errors?.minlength || thirdPartyForm.controls.identification.errors?.maxlength"> 
+									La identificación debe contener entre 5 y 15 caracteres
+								</span>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Primer Nombre" formControlName="first_name" />
+							<mat-error>
+								<span *ngIf="thirdPartyForm.controls.first_name.errors?.required"> Por favor ingrese el 
+									<strong>Primer Nombre</strong>
+								</span>
+								<span *ngIf="thirdPartyForm.controls.first_name.errors?.maxlength"> 
+									Máximo 50 caracteres
+								</span>
+								
+							</mat-error>							
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Segundo Nombre" formControlName="second_name" />
+							<mat-error>
+								<span *ngIf="thirdPartyForm.controls.second_name.errors?.required"> Por favor ingrese el 
+									<strong>Segundo Nombre</strong>
+								</span>
+								<span *ngIf="thirdPartyForm.controls.second_name.errors?.maxlength"> 
+									Máximo 50 caracteres
+								</span>
+							</mat-error>							
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Apellido" formControlName="last_name" />
+							<mat-error>
+								<span *ngIf="thirdPartyForm.controls.last_name.errors?.required"> Por favor ingrese el 
+									<strong>Apellido</strong>
+								</span>
+								<span *ngIf="thirdPartyForm.controls.last_name.errors?.maxlength"> 
+									Máximo 100 caracteres
+								</span>
+							</mat-error>							
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Teléfono" formControlName="phone" />							
+							<mat-error>
+								<span *ngIf="thirdPartyForm.controls.phone.errors?.required"> Por favor ingrese un número de
+									<strong>Teléfono</strong>
+								</span>
+								<span *ngIf="thirdPartyForm.controls.phone.errors?.maxlength"> 
+									Máximo 50 caracteres
+								</span>
+								
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Dirección" formControlName="address" />							
+							<mat-error>
+								<span *ngIf="thirdPartyForm.controls.phone.errors?.required"> Por favor ingrese una
+									<strong>Dirección</strong>
+								</span>
+								<span *ngIf="thirdPartyForm.controls.phone.errors?.maxlength"> 
+									Máximo 400 caracteres
+								</span>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+
+					<div class="col-lg-4 margin-bottom-20">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="Ciudad" formControlName="city_id">
+								<mat-option *ngFor="let city of cities" [value]="city.id">
+									{{city.name}}
+								</mat-option>							
+							</mat-select>							
+							<mat-error>Por favor seleccione una
+								<strong>Ciudad</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+					
+				</div>
+			</div>
+		</form>	
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button type="button" class="btn btn-danger" [mat-dialog-close]="data.animal" [disabled]="thirdPartyService.loading">
+		Cancelar
+	</button>&nbsp;
+	<button type="button" class="btn btn-primary" (click)="onSubmit(thirdPartyForm.value)" [disabled]="thirdPartyService.loading">Guardar Cambios</button>
+</mat-dialog-actions>

@@ -1,0 +1,158 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <h3>Lista de vehículos</h3>
+        </div>
+        <div class="card-actions">
+            <vehicle-form (success)="dataSource.loadData()">
+                <button class="btn btn-primary" type="button">
+                    <i class="mdi mdi-plus"></i>
+                    Agregar
+                </button>
+            </vehicle-form>
+        </div>
+    </div>
+    <div class="card-body filter-form">
+        
+            <div class="row align-items-center">
+                <div class="col-md-12">
+        
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="filter.plate">
+                        <button mat-button *ngIf="filter.plate" matSuffix mat-icon-button aria-label="Clear" (click)="filter.plate=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-hint align="start">
+                            <strong>Placa</strong>
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="filter.color">
+                        <button mat-button *ngIf="filter.color" matSuffix mat-icon-button aria-label="Clear" (click)="filter.color=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-hint align="start">
+                            <strong>Color</strong>
+                        </mat-hint>
+                    </mat-form-field>  
+                    
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="filter.brand">
+                        <button mat-button *ngIf="filter.brand" matSuffix mat-icon-button aria-label="Clear" (click)="filter.brand=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-hint align="start">
+                            <strong>Marca</strong>
+                        </mat-hint>
+                    </mat-form-field>  
+
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="filter.third_party_owner">
+                        <button mat-button *ngIf="filter.third_party_owner" matSuffix mat-icon-button aria-label="Clear" (click)="filter.third_party_owner=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-hint align="start">
+                            <strong>Propietario</strong>
+                        </mat-hint>
+                    </mat-form-field>  
+
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="filter.third_party_driver">
+                        <button mat-button *ngIf="filter.third_party_driver" matSuffix mat-icon-button aria-label="Clear" (click)="filter.third_party_driver=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-hint align="start">
+                            <strong>Conductor</strong>
+                        </mat-hint>
+                    </mat-form-field>  
+                    
+                </div>					
+            </div>
+        
+    </div>
+    <div class="card-body card-footer">
+        <button class="btn btn-secondary" type="button" (click)="dataSource.loadData()">
+            <i class="mdi mdi-magnify"></i>
+            Buscar
+        </button>  
+    </div>
+  </div>
+
+<div class="card">
+    <div class="card-body">        
+        <div perfectScrollbar class="mat-table__wrapper mat-table__wrapper--dashboard mb-4">
+            <mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+        
+                <!-- Cod. Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Cod. </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+                </ng-container>
+            
+                
+                <!-- Plate Column -->
+                <ng-container matColumnDef="plate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Placa </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.plate}} </mat-cell>
+                </ng-container>
+
+                <!-- Vehicle Type Column -->
+                <ng-container matColumnDef="vehicle_type">
+                    <mat-header-cell *matHeaderCellDef> Tipo de vehículo </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.vehicle_type?.name}} </mat-cell>
+                </ng-container>
+                
+                <!-- Brand Column -->
+                <ng-container matColumnDef="brand">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Marca </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.brand}} </mat-cell>
+                </ng-container>
+
+                <!-- Color Column -->
+                <ng-container matColumnDef="color">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.color}} </mat-cell>
+                </ng-container>
+
+                <!-- Owner Column -->
+                <ng-container matColumnDef="third_party_owner">
+                    <mat-header-cell *matHeaderCellDef> Propietario </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.third_party_owner.full_name}} </mat-cell>
+                </ng-container>
+
+                <!-- Driver Column -->
+                <ng-container matColumnDef="third_party_driver">
+                    <mat-header-cell *matHeaderCellDef> Conductor </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.third_party_driver.full_name}} </mat-cell>
+                </ng-container>
+
+                
+
+                <!-- Actions -->
+                <ng-container matColumnDef="actions">
+					<mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+					<mat-cell *matCellDef="let element">                        
+                        
+                        <vehicle-form [id]="element.id" (success)="dataSource.loadData()">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="mdi mdi-pencil"></i>
+                                Editar
+                            </button>
+                        </vehicle-form>                            
+                        
+					</mat-cell>
+				</ng-container>
+            
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"  [ngClass] = "{'row-disabled' : row.state != 1}"></mat-row>
+            </mat-table>
+        
+        </div>
+        <!-- start: BOTTOM -->
+        <div class="mat-table__bottom mat-table__bottom--padding">
+            <mat-paginator [pageSize]="vehicleService.tableConfig.pageSize" [pageSizeOptions]="vehicleService.tableConfig.sizeOptions" [length]="dataSource.totalItems$ | async" [showFirstLastButtons]="vehicleService.tableConfig.showFirstLastButtons"></mat-paginator>
+        </div>
+        <!-- end: BOTTOM -->
+    </div>
+</div>
